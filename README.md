@@ -1,6 +1,6 @@
 # wordle-vis
 
-a silly tweet
+a silly [tweet](https://twitter.com/jw0z_etc/status/1479449670585888771)
 
 ## Compile & Run
 ```
