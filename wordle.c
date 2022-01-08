@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 	if (!psStream)
 	{
 		printf("pa_simple_new() failed: %s\n", pa_strerror(iErrorCode));
-		goto FAILED_PulseAudioInit;
+		return 1;
 	}
 
 	// Prepare FFTW buffers for generating a DFT
@@ -146,7 +146,7 @@ int main(int argc, char **argv)
 		if (pa_simple_read(psStream, afPulseBuffer, sizeof(afPulseBuffer), &iErrorCode) < 0)
 		{
 			printf("pa_simple_read() failed: %s\n", pa_strerror(iErrorCode));
-			goto FAILED_PulseAudioRead;
+			break;
 		}
 
 		// Copy (whilst casting) our audio buffer into our FFTW input buffer
@@ -188,16 +188,10 @@ int main(int argc, char **argv)
 		printWordle(&sWordleFrame);
 	}
 
-FAILED_PulseAudioRead:
 	pa_simple_free(psStream);
 
 	fftw_free(psFFTWOutput);
 	fftw_destroy_plan(psFFTWPlan);
-
-	return 0;
-
-FAILED_PulseAudioInit:
-	pa_simple_free(psStream);
 
 	return 0;
 }
